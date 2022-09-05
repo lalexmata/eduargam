@@ -1,6 +1,8 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import {ApiTags} from "@nestjs/swagger";
 
 @Controller('categories')
+@ApiTags('categories')
 export class CategoriesController {
   @Get(':id/products/:productId')
   getCategory(@Param('productId') productId: string, @Param('id') id: string) {
