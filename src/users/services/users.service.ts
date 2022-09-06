@@ -4,32 +4,34 @@ import { User } from '../entities/user.entity';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { RolesService } from './roles.service';
+import {Role} from "../entities/role.entity";
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepo: Repository<User>,
+    private roleService: RolesService,
   ) {
   }
 
-  private counterId = 1;
-  private users: User[] = [
-    {
-      id: 1,
-      email: 'correo@mail.com',
-      password: '12345',
-      role: 'admin',
-    },
-  ];
 
   findAll() {
-    return this.userRepo.find();
-
+    return this.userRepo.find({
+      relations: {
+        role: true,
+      },
+    });
   }
 
   async findOne(id: number) {
-    // @ts-ignore
-    const user = await this.userRepo.findOne(id);
+    const user = await this.userRepo.findOne({
+      where: { id: id },
+      relations: {
+        role: true,
+      },
+    });
+
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
     }
@@ -45,35 +47,44 @@ export class UsersService {
   }
 
   async create(data: CreateUserDto) {
-    const newUser = this.userRepo.create(data);
-    const hashPassword = await bcrypt.hash(newUser.password, 10);
-    newUser.password = hashPassword;
+    try {
+      const newUser = this.userRepo.create(data);
+      const hashPassword = await bcrypt.hash(newUser.password, 10);
+      newUser.password = hashPassword;
 
-    /*if(data.customer_id){
-      const customer =  await this.customerService.findOne(data.customer_id);
-      if(customer) {
-        newUser.customer = customer
+      if (data.role_id) {
+        const role = await this.roleService.findOne(data.role_id);
+        if (role) {
+          newUser.role = role;
+        }
       }
-    }*/
-    return this.userRepo.save(newUser);
+      return this.userRepo.save(newUser);
+    } catch (e) {
+      console.log(e);
+      throw Error(e);
+    }
   }
 
   async update(id: number, changes: UpdateUserDto) {
-    // @ts-ignore
-    const user = await this.userRepo.findOne(id);
-    if(!user){
+    const user = await this.findOne(id);
+
+    if (!user) {
       throw new NotFoundException(`User #${id} not found`);
     }
-
+    if (changes.role_id) {
+      const role = await this.roleService.findOne(changes.role_id);
+      if (role) {
+        user.role = role;
+      }
+    }
     this.userRepo.merge(user, changes);
 
     return this.userRepo.save(user);
   }
 
   async remove(id: number) {
-    // @ts-ignore
-    const user = await this.userRepo.findOne(id);
-    if(!user){
+    const user = await this.findOne(id);
+    if (!user) {
       throw new NotFoundException(`User #${id} not found`);
     }
 

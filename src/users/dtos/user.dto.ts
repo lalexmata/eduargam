@@ -17,7 +17,7 @@ export class CreateUserDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  readonly role: string;
+  readonly role_id: number;
 }
 
 export class UpdateUserDto extends PartialType(
