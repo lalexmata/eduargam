@@ -4,7 +4,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  app.enableCors();
   // Configuración Swagger en NestJS
   const config = new DocumentBuilder()
     .setTitle('Eduargam API')
