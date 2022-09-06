@@ -21,5 +21,5 @@ export class CreateUserDto {
 }
 
 export class UpdateUserDto extends PartialType(
-  OmitType(CreateUserDto, ['email']),
+  OmitType(CreateUserDto, ['email'])
 ) {}

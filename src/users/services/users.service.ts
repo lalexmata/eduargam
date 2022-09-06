@@ -1,10 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-
+import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
+import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
+  constructor(
+    @InjectRepository(User) private userRepo: Repository<User>,
+  ) {
+  }
+
   private counterId = 1;
   private users: User[] = [
     {
@@ -16,43 +23,60 @@ export class UsersService {
   ];
 
   findAll() {
-    return this.users;
+    return this.userRepo.find();
+
   }
 
-  findOne(id: number) {
-    const user = this.users.find((item) => item.id === id);
+  async findOne(id: number) {
+    // @ts-ignore
+    const user = await this.userRepo.findOne(id);
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
     }
     return user;
   }
 
-  create(data: CreateUserDto) {
-    this.counterId = this.counterId + 1;
-    const newUser = {
-      id: this.counterId,
-      ...data,
-    };
-    this.users.push(newUser);
-    return newUser;
+  async findByEmail(email: string) {
+    return this.userRepo.findOne({
+      where: {
+        email,
+      },
+    });
   }
 
-  update(id: number, changes: UpdateUserDto) {
-    const user = this.findOne(id);
-    const index = this.users.findIndex((item) => item.id === id);
-    this.users[index] = {
-      ...user,
-      ...changes,
-    };
-    return this.users[index];
+  async create(data: CreateUserDto) {
+    const newUser = this.userRepo.create(data);
+    const hashPassword = await bcrypt.hash(newUser.password, 10);
+    newUser.password = hashPassword;
+
+    /*if(data.customer_id){
+      const customer =  await this.customerService.findOne(data.customer_id);
+      if(customer) {
+        newUser.customer = customer
+      }
+    }*/
+    return this.userRepo.save(newUser);
   }
 
-  remove(id: number) {
-    const index = this.users.findIndex((item) => item.id === id);
-    if (index === -1) {
+  async update(id: number, changes: UpdateUserDto) {
+    // @ts-ignore
+    const user = await this.userRepo.findOne(id);
+    if(!user){
       throw new NotFoundException(`User #${id} not found`);
     }
-    this.users.splice(index, 1);
-    return true;
+
+    this.userRepo.merge(user, changes);
+
+    return this.userRepo.save(user);
+  }
+
+  async remove(id: number) {
+    // @ts-ignore
+    const user = await this.userRepo.findOne(id);
+    if(!user){
+      throw new NotFoundException(`User #${id} not found`);
+    }
+
+    return this.userRepo.delete(id);
   }
 }
