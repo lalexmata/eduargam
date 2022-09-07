@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsEmail, Length } from 'class-validator';
+import {IsString, IsNotEmpty, IsEmail, Length, IsOptional} from 'class-validator';
 import {ApiProperty, OmitType, PartialType} from "@nestjs/swagger";
 
 
@@ -31,7 +31,7 @@ export class CreateClientDto {
   @IsNotEmpty()
   readonly address: string;
 
-  @ApiProperty({ description: "nombre de la persona de contacto"})
+  @ApiProperty({ description: 'nombre de la persona de contacto' })
   @IsString()
   @IsNotEmpty()
   @Length(6)
@@ -44,6 +44,12 @@ export class CreateClientDto {
   @ApiProperty()
   @IsNotEmpty()
   readonly comuna: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsNotEmpty()
+  readonly user_id: number;
+
 }
 
 export class UpdateClientDto extends PartialType(

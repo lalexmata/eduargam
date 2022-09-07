@@ -1,11 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Client } from '../entities/client.entity';
 import { CreateClientDto, UpdateClientDto } from '../dtos/client.dto';
+import { UsersService } from './users.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ClientsService {
+  constructor(
+    private userService: UsersService,
+    @InjectRepository(Client) private clientRepo: Repository<Client>,
+  ) {}
 
-  private counterId = 1;
   private clients: Client[] = [
     {
       id: 1,
@@ -17,6 +23,7 @@ export class ClientsService {
       contact: 'José',
       city: 'Santiago',
       comuna: 'Las Condes',
+      user: null,
     },
     {
       id: 2,
@@ -28,6 +35,7 @@ export class ClientsService {
       contact: 'Mauricio',
       city: 'Santiago',
       comuna: 'Lo Barnechea',
+      user: null,
     },
     {
       id: 3,
@@ -39,6 +47,7 @@ export class ClientsService {
       contact: 'Diedmar',
       city: 'Santiago',
       comuna: 'Lo Barnechea',
+      user: null,
     },
     {
       id: 4,
@@ -50,39 +59,50 @@ export class ClientsService {
       contact: 'Iván',
       city: 'Santiago',
       comuna: 'Las Condes',
+      user: null,
     },
   ];
 
   findAll() {
-    return this.clients;
+    return this.clientRepo.find({ relations: { user: true } });
   }
 
   findOne(id: number) {
-    const user = this.clients.find((item) => item.id === id);
-    if (!user) {
+    const client = this.clients.find((item) => item.id === id);
+    if (!client) {
       throw new NotFoundException(`Client #${id} not found`);
     }
-    return user;
+    return client;
   }
 
-  create(data: CreateClientDto) {
-    this.counterId = this.counterId + 1;
-    const newUser = {
-      id: this.counterId,
-      ...data,
-    };
-    this.clients.push(newUser);
-    return newUser;
+  async create(data: CreateClientDto) {
+    const newClient = this.clientRepo.create(data);
+
+    if (data.user_id) {
+      const user = await this.userService.findOne(data.user_id);
+      if (user) {
+        newClient.user = user;
+      }
+    }
+
+    return this.clientRepo.save(newClient);
   }
 
-  update(id: number, changes: UpdateClientDto) {
-    const client = this.findOne(id);
-    const index = this.clients.findIndex((item) => item.id === id);
-    this.clients[index] = {
-      ...client,
-      ...changes,
-    };
-    return this.clients[index];
+  async update(id: number, changes: UpdateClientDto) {
+    const client = await this.findOne(id);
+
+    if (!client) {
+      throw new NotFoundException(`User #${id} not found`);
+    }
+    if (changes.user_id) {
+      const user = await this.userService.findOne(changes.user_id);
+      if (user) {
+        client.user = user;
+      }
+    }
+    this.clientRepo.merge(client, changes);
+
+    return this.clientRepo.save(client);
   }
 
   remove(id: number) {
