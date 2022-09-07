@@ -105,13 +105,12 @@ export class ClientsService {
     return this.clientRepo.save(client);
   }
 
-  remove(id: number) {
-    const index = this.clients.findIndex((item) => item.id === id);
-    if (index === -1) {
+  async remove(id: number) {
+    const user = await this.findOne(id);
+    if (!user) {
       throw new NotFoundException(`Client #${id} not found`);
     }
-    this.clients.splice(index, 1);
-    return true;
-  }
 
+    return this.clientRepo.delete(id);
+  }
 }
