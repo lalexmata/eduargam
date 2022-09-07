@@ -68,7 +68,12 @@ export class ClientsService {
   }
 
   findOne(id: number) {
-    const client = this.clients.find((item) => item.id === id);
+    const client = this.clientRepo.findOne({
+      where: { id: id },
+      relations: {
+        user: true,
+      },
+    });
     if (!client) {
       throw new NotFoundException(`Client #${id} not found`);
     }

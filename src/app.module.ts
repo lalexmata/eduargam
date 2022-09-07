@@ -9,6 +9,7 @@ import { ProductsModule } from './products/products.module';
 import { UsersModule } from './users/users.module';
 import { CategoriesService } from './products/services/categories.service';
 import { DatabaseModule } from './database/database.module';
+import { OpinionsModule } from './opinions/opinions.module';
 
 
 @Module({
@@ -17,6 +18,7 @@ import { DatabaseModule } from './database/database.module';
     ProductsModule,
     UsersModule,
     DatabaseModule,
+    OpinionsModule,
   ],
   controllers: [AppController, ProductsController, CategoriesController],
   providers: [AppService, ProductsService, CategoriesService],

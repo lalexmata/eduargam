@@ -10,7 +10,7 @@ export class CreateClientDto {
   @Length(6)
   readonly name: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: true})
   @IsString()
   @IsNotEmpty()
   @Length(6)
@@ -27,7 +27,7 @@ export class CreateClientDto {
   @Length(6)
   readonly telephone: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: true})
   @IsNotEmpty()
   readonly address: string;
 
@@ -37,15 +37,15 @@ export class CreateClientDto {
   @Length(6)
   readonly contact: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: true})
   @IsNotEmpty()
   readonly city: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: true})
   @IsNotEmpty()
   readonly comuna: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false})
   @IsOptional()
   @IsNotEmpty()
   readonly user_id: number;

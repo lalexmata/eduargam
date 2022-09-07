@@ -88,6 +88,18 @@ export class UsersService {
       throw new NotFoundException(`User #${id} not found`);
     }
 
-    return this.userRepo.delete(id);
+    const deleteUser = await this.userRepo.delete(id);
+
+    if (!deleteUser) {
+      return {
+        error: true,
+        msj: 'User not deleted',
+      };
+    }
+
+    return {
+      error: false,
+      msj: 'User deleted successfull',
+    };
   }
 }
