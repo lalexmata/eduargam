@@ -6,17 +6,13 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(): string {
-    return 'Hola mundo!';
+  getHello() {
+    return {
+      app_name: 'Eduargam',
+      version: '0.0.1',
+      author: 'lmatadesign'
+    };
   }
 
-  @Get('nuevo')
-  newEndpoint() {
-    return 'yo soy nuevo';
-  }
 
-  @Get('/ruta/')
-  hello() {
-    return 'con /sas/';
-  }
 }

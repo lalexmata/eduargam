@@ -10,6 +10,8 @@ import { UsersModule } from './users/users.module';
 import { CategoriesService } from './products/services/categories.service';
 import { DatabaseModule } from './database/database.module';
 import { OpinionsModule } from './opinions/opinions.module';
+import { MultimediaModule } from './multimedia/multimedia.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -19,8 +21,10 @@ import { OpinionsModule } from './opinions/opinions.module';
     UsersModule,
     DatabaseModule,
     OpinionsModule,
+    MultimediaModule,
+    AuthModule,
   ],
-  controllers: [AppController, ProductsController, CategoriesController],
-  providers: [AppService, ProductsService, CategoriesService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

@@ -1,5 +1,5 @@
 import {ApiProperty, OmitType, PartialType} from "@nestjs/swagger";
-import {IsPositive, IsString} from "class-validator";
+import {IsOptional, IsPositive, IsString} from "class-validator";
 
 export class CreatePostsDto {
 
@@ -8,8 +8,8 @@ export class CreatePostsDto {
   readonly title: string;
 
   @ApiProperty()
-  @IsPositive()
-  readonly category_id: number;
+  @IsOptional()
+  readonly categories_id: number[];
 
   @ApiProperty()
   readonly description: string;

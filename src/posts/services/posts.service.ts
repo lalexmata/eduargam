@@ -1,61 +1,109 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import { Injectable, NotFoundException} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 
-import {Post} from "../entities/post.entity";
-import {CreatePostsDto, UpdatePostsDto} from "../dtos/posts.dtos";
+import { Repository } from 'typeorm';
+import { Post } from '../entities/post.entity';
+import { CreatePostsDto, UpdatePostsDto } from '../dtos/posts.dtos';
+import { CategoriesService } from '../../products/services/categories.service';
+import {Category} from "../../products/entities/category.entity";
 
 
 @Injectable()
 export class PostsService {
+  constructor(
+    @InjectRepository(Post) private postRepo: Repository<Post>,
+    @InjectRepository(Category) private categoryRepo: Repository<Category>,
+    private categoryService: CategoriesService,
+  ) {
+  }
 
-  private counterId = 1;
-  private posts: Post[] = [
-    {
-      id: 1,
-      title: 'Titulo ejemplo',
-      description: 'descripcion de ejemplo',
-      category_id: 1,
-      status: 1,
-    },
-  ];
 
   findAll() {
-    return this.posts;
+    return this.postRepo.find({
+      relations: {
+        categories: true,
+      },
+    });
   }
 
   findOne(id: number) {
-    const post = this.posts.find((item) => item.id === id);
+    const post = this.postRepo.find({
+      where: { id: id},
+      relations: { categories: true}
+    });
+
     if (!post) {
       throw new NotFoundException(`post #${id} not found`);
     }
     return post;
   }
 
-  create(data: CreatePostsDto) {
-    this.counterId = this.counterId + 1;
-    const newPost = {
-      id: this.counterId,
-      ...data,
-    };
-    this.posts.push(newPost);
-    return newPost;
+  async create(data: CreatePostsDto) {
+    const newPost = this.postRepo.create(data);
+
+    if(data.categories_id){
+      const categories = await this.categoryRepo.findByIds(data.categories_id);
+
+      if (categories) {
+        newPost.categories = categories;
+      }
+    }
+
+    return this.postRepo.save(newPost);
   }
 
-  update(id: number, changes: UpdatePostsDto) {
-    const post = this.findOne(id);
-    const index = this.posts.findIndex((item) => item.id === id);
-    this.posts[index] = {
-      ...post,
-      ...changes,
-    };
-    return this.posts[index];
-  }
+  async update(id: number, changes: UpdatePostsDto) {
+    const post = this.postRepo.find({
+      where: { id: id},
+      relations: { categories: true}
+    });
 
-  remove(id: number) {
-    const index = this.posts.findIndex((item) => item.id === id);
-    if (index === -1) {
+    if(!post){
       throw new NotFoundException(`post #${id} not found`);
     }
-    this.posts.splice(index, 1);
-    return true;
+
+    if(changes.categories_id){
+      const categories = await this.categoryRepo.findByIds(
+        changes.categories_id,
+      );
+      console.log(categories);
+    }
+
+  }
+
+  async remove(id: number) {
+    const user = await this.findOne(id);
+    if (!user) {
+      throw new NotFoundException(`User #${id} not found`);
+    }
+
+    const deleteUser = await this.postRepo.delete(id);
+
+    if (!deleteUser) {
+      return {
+        error: true,
+        msj: 'Post not deleted',
+      };
+    }
+
+    return {
+      error: false,
+      msj: 'Post deleted successfull',
+    };
+  }
+
+  async removeCategoryByPost(post_id: number, category_id: number){
+    const post = await this.postRepo.findOne( {
+      where: { id: post_id },
+      relations: {
+        categories: true
+      }
+    });
+
+    if(post){
+      post.categories = post.categories.filter((item) => item.id !== category_id);
+    }
+
+    return this.postRepo.save(post);
   }
 }

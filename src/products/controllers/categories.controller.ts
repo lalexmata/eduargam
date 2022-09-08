@@ -1,9 +1,18 @@
-import {Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags} from "@nestjs/swagger";
 import { CategoriesService } from '../services/categories.service';
-import {ParseIntPipe} from "../../common/parse-int.pipe";
-import {CreateProductDto, UpdateProductDto} from "../dtos/products.dto";
-import {CreateCategoryDto, UpdateCategoryDto} from "../dtos/categories.dto";
+import { ParseIntPipe } from '../../common/parse-int.pipe';
+import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/categories.dto';
 
 @Controller('categories')
 @ApiTags('categories')
@@ -13,7 +22,7 @@ export class CategoriesController {
   ) {
   }
   @Get()
-  @ApiOperation({ summary: ' Obtiene todas las certegorias registradas' })
+  @ApiOperation({ summary: ' Obtiene todas las categorias registradas' })
   getAll() {
     return this.categoryService.findAll();
   }
@@ -28,21 +37,15 @@ export class CategoriesController {
     return `product ${productId} and ${id}`;
   }
 
+
   @Get(':id')
   @HttpCode(HttpStatus.ACCEPTED)
   getOne(@Param('id', ParseIntPipe) id: number) {
-    // response.status(200).send({
-    //   message: `product ${productId}`,
-    // });
     return this.categoryService.findOne(id);
   }
 
   @Post()
   create(@Body() payload: CreateCategoryDto) {
-    // return {
-    //   message: 'accion de crear',
-    //   payload,
-    // };
     return this.categoryService.create(payload);
   }
 
