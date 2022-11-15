@@ -17,6 +17,12 @@ export class Category {
   @Column({ type: 'longtext'})
   image: string;
 
+  @Column()
+  slug: string;
+
+  @Column({ type: 'longtext'})
+  description: string;
+
   @ManyToMany( () => Post, (post) => post.categories)
   posts: Post[];
 

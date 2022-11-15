@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt';
 import { RolesService } from './roles.service';
 import {Role} from "../entities/role.entity";
 
+
 @Injectable()
 export class UsersService {
   constructor(
@@ -71,6 +72,11 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
     }
+    if (changes.password) {
+      const hashPassword = await bcrypt.hash(changes.password, 10);
+      user.password = hashPassword;
+    }
+
     if (changes.role_id) {
       const role = await this.roleService.findOne(changes.role_id);
       if (role) {

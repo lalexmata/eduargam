@@ -4,6 +4,7 @@ import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/categories.dto';
 import {CreateRoleDto, UpdateRoleDto} from "../../users/dtos/role.dto";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
+import slugify from "slugify";
 
 @Injectable()
 export class CategoriesService {
@@ -22,11 +23,13 @@ export class CategoriesService {
     if (!category) {
       throw new NotFoundException(`Category #${id} not found`);
     }
+
     return category;
   }
 
   async findByType(type: string) {
     return this.categoryRepo.find({
+
       where: {
         type,
       },
@@ -36,7 +39,9 @@ export class CategoriesService {
   async create(data: CreateCategoryDto) {
     try {
       const newCategory = this.categoryRepo.create(data);
+      newCategory.slug = slugify(newCategory.name.toLowerCase());
       return this.categoryRepo.save(newCategory);
+
     } catch (e) {
       console.log(e);
       throw Error(e);
@@ -49,7 +54,7 @@ export class CategoriesService {
     if (!category) {
       throw new NotFoundException(`category #${id} not found`);
     }
-
+    category.slug = slugify(category.name.toLowerCase());
     this.categoryRepo.merge(category, changes);
 
     return this.categoryRepo.save(category);
