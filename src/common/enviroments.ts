@@ -1,4 +1,5 @@
 export const enviroments = {
+  PORT: process.env.PORT || 3000,
   database: {
     driver: 'mysql',
     host: process.env.DATABASE_HOST || 'localhost',
@@ -6,6 +7,8 @@ export const enviroments = {
     username: process.env.DATABASE_USER || 'root',
     password: process.env.DATABASE_PASSWORD || 'root',
     name: process.env.DATABASE_NAME || 'eduargam',
+    entities: ['dist/**/*.entity{.ts,.js}'],
+    synchronize: true
   }
   /*database: {
     driver: 'mysql' || 'mysql',

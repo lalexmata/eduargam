@@ -4,7 +4,10 @@ export default registerAs('config', () => {
   return {
     database: {
       name: process.env.DATABASE_NAME,
-      port: process.env.DATABASE_PORT,
+      port: parseInt(process.env.DATABASE_PORT, 10),
+      host: process.env.DATABASE_HOST,
+      password: process.env.DATABASE_PASSWORD,
+      user: process.env.DATABASE_USER,
     },
     postgres: {
       dbName: process.env.POSTGRES_DB,
@@ -21,5 +24,6 @@ export default registerAs('config', () => {
       host: process.env.MYSQL_HOST,
     },
     apiKey: process.env.API_KEY,
+    jwt_Secret: process.env.JWT_SECRET,
   };
 });

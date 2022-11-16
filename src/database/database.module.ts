@@ -5,11 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.DATABASE_HOST || '72.167.124.128',
-      port: parseInt(process.env.DATABASE_PORT) || 3306,
-      username: process.env.DATABASE_USER || 'eduargamps',
-      password: process.env.DATABASE_PASSWORD || 'TNHheEcDw0QvMqKnF3qx',
-      database: process.env.DATABASE_NAME || 'eduargamps',
+      host: process.env.DATABASE_HOST || 'containers-us-west-128.railway.app',
+      port: parseInt(process.env.DATABASE_PORT) || 6463,
+      username: process.env.DATABASE_USER || 'root',
+      password: process.env.DATABASE_PASSWORD || 'CRWzibcq3WqkZmpLz0nL',
+      database: process.env.DATABASE_NAME || 'railway',
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
