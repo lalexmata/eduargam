@@ -31,6 +31,9 @@ export class Client {
   @Column({ type: 'varchar', length: 200 })
   comuna: string;
 
+  @Column({ type: 'longtext', nullable: true })
+  logo: string;
+
 
   @OneToOne( () => User, (user) => user.client, { nullable:true })
   user: User

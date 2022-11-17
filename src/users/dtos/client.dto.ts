@@ -50,6 +50,10 @@ export class CreateClientDto {
   @IsNotEmpty()
   readonly user_id: number;
 
+  @ApiProperty({ required: false})
+  @IsOptional()
+  readonly logo: string;
+
 }
 
 export class UpdateClientDto extends PartialType(

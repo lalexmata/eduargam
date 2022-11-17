@@ -26,6 +26,12 @@ export class ClientsController {
     return this.clientService.findAll();
   }
 
+  @ApiOperation( { summary: 'Obtiene listado de clientes con nombre y logo'})
+  @Get('list')
+  getClientsList(){
+    return this.clientService.list();
+  }
+
   @ApiOperation({ summary: ' Obtener datos de cliente en especifico' })
   @Get(':id')
   get(@Param('id', ParseIntPipe) id: number) {

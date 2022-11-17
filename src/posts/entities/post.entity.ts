@@ -21,7 +21,7 @@ export class Post {
   @Column({ type: 'longtext' })
   description: string;
 
-  @Column()
+  @Column({ default: 0 })
   status: number;
 
   @CreateDateColumn()

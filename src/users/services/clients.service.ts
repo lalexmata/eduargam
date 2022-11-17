@@ -13,7 +13,7 @@ export class ClientsService {
   ) {}
 
   private clients: Client[] = [
-    {
+    /*{
       id: 1,
       name: 'Condominio Terralta Los Dominicos',
       rut: '53324420-3',
@@ -24,6 +24,7 @@ export class ClientsService {
       city: 'Santiago',
       comuna: 'Las Condes',
       user: null,
+      logo: '',
     },
     {
       id: 2,
@@ -36,6 +37,7 @@ export class ClientsService {
       city: 'Santiago',
       comuna: 'Lo Barnechea',
       user: null,
+      logo: '',
     },
     {
       id: 3,
@@ -48,6 +50,7 @@ export class ClientsService {
       city: 'Santiago',
       comuna: 'Lo Barnechea',
       user: null,
+      logo: '',
     },
     {
       id: 4,
@@ -60,11 +63,19 @@ export class ClientsService {
       city: 'Santiago',
       comuna: 'Las Condes',
       user: null,
+      logo: '',
     },
-  ];
+  */];
 
   findAll() {
     return this.clientRepo.find({ relations: { user: true } });
+  }
+
+  list() {
+    return this.clientRepo
+      .createQueryBuilder('client')
+      .select(['client.id', 'client.name', 'client.logo'])
+      .getMany();
   }
 
   findOne(id: number) {
