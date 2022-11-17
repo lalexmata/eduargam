@@ -22,6 +22,7 @@ export class PostsService {
     return this.postRepo.find({
       relations: {
         categories: true,
+        images: true,
       },
     });
   }
@@ -29,13 +30,26 @@ export class PostsService {
   findOne(id: number) {
     const post = this.postRepo.find({
       where: { id: id},
-      relations: { categories: true}
+      relations: {
+        categories: true,
+        images: true,
+      },
     });
 
     if (!post) {
       throw new NotFoundException(`post #${id} not found`);
     }
     return post;
+  }
+
+  async findByCategory(categoryName: string) {
+    //const category = await this.categoryService.findBySlug(categoryName);
+    const posts = this.postRepo.find({
+      //where: { id: id},
+      relations: { images: true}
+    });
+    //TODO:filtrar por categoria
+    return posts;
   }
 
   async create(data: CreatePostsDto) {

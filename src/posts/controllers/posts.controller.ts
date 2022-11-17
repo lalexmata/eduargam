@@ -3,16 +3,27 @@ import {ApiOperation, ApiTags} from '@nestjs/swagger';
 import { PostsService } from '../services/posts.service';
 import {CreateUserDto, UpdateUserDto} from "../../users/dtos/user.dto";
 import { CreatePostsDto, UpdatePostsDto} from "../dtos/posts.dtos";
+import {CategoriesService} from "../../products/services/categories.service";
 
 @Controller('posts')
 @ApiTags('posts')
 export class PostsController {
-  constructor(private postsService: PostsService) {}
+  constructor(
+    private postsService: PostsService,
+    private categoryService: CategoriesService,
+  ) {}
 
   @Get()
   @ApiOperation({ summary: 'Obtiene todos los Post'})
   getAll() {
     return this.postsService.findAll();
+  }
+
+  @Get('category/:slug')
+  @ApiOperation({ summary: 'Obtener post por categoria' })
+  getPostsByCategory(@Param('slug') slug: string) {
+    return this.postsService.findByCategory(slug);
+    return [];
   }
 
   @Get(':id')

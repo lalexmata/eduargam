@@ -36,6 +36,14 @@ export class CategoriesService {
     });
   }
 
+  async findBySlug(slug: string) {
+    return this.categoryRepo.find({
+      where: {
+        slug,
+      },
+    });
+  }
+
   async create(data: CreateCategoryDto) {
     try {
       const newCategory = this.categoryRepo.create(data);
