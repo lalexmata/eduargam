@@ -15,6 +15,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { enviroments } from './common/enviroments';
 import { ConveniosModule } from './convenios/convenios.module';
+import { ContactoModule } from './contacto/contacto.module';
 import config from './config';
 import * as Joi from 'joi';
 
@@ -33,6 +34,7 @@ import * as Joi from 'joi';
     MultimediaModule,
     AuthModule,
     ConveniosModule,
+    ContactoModule,
   ],
   controllers: [AppController],
   providers: [AppService],

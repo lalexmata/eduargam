@@ -91,6 +91,19 @@ export class ClientsService {
     return client;
   }
 
+  findByRut(rut: string) {
+    const client = this.clientRepo.findOne({
+      where: { rut: rut },
+      relations: {
+        user: true,
+      },
+    });
+    if (!client) {
+      throw new NotFoundException(`Client #${rut} not found`);
+    }
+    return client;
+  }
+
   async create(data: CreateClientDto) {
     const newClient = this.clientRepo.create(data);
 
