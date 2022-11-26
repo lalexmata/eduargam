@@ -2,7 +2,7 @@ import {
   Column,
   Entity,
   ManyToMany,
-  OneToMany,
+  OneToMany, OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Post } from '../../posts/entities/post.entity';
@@ -36,7 +36,7 @@ export class Category {
   @ManyToMany(() => Product, (product) => product.categories)
   products: Product[];
 
-  @OneToMany(() => Contacto, (contacto) => contacto.category, {
+  @OneToOne(() => Contacto, (contacto) => contacto.category, {
     nullable: true,
   })
   contacto: User;

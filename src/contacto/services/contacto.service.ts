@@ -6,6 +6,7 @@ import { ClientsService } from '../../users/services/clients.service';
 import {Contacto} from "../entities/contacto.entity";
 import {CreateContacto} from "../dtos/contacto.dtos";
 import {CategoriesService} from "../../products/services/categories.service";
+import {Client} from "../../users/entities/client.entity";
 
 
 @Injectable()
@@ -26,14 +27,21 @@ export class ContactoService {
   }
 
   async create(data: CreateContacto) {
-    const client = await this.buscaCliente(data);
-
-    const newContact = this.contactoRepo.create({
-      client: client,
+    let client: Client;
+    const dataContacto = {
       comments: data.comments,
       tipo_contacto: data.tipo_contacto,
-    });
+    };
 
+    const newContact = this.contactoRepo.create(dataContacto);
+
+    if (data.client_id) {
+      client = await this.clientService.findOne(data.client_id);
+    } else {
+      client = await this.buscaCliente(data);
+    }
+
+    newContact.client = client;
     if (data.category_id) {
       const category = await this.categoryService.findOne(data.category_id);
       if (!category) {
@@ -41,6 +49,7 @@ export class ContactoService {
       }
       newContact.category = category;
     }
+    console.log(newContact);
 
     return this.contactoRepo.save(newContact);
   }
@@ -50,9 +59,9 @@ export class ContactoService {
     let client = await this.clientService.findByRut(data.rut);
 
     if (!client) {
+      client = null;
       client = await this.clientService.create(datosCliente);
     }
-
     return client;
   }
 

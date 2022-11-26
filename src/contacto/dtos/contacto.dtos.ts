@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {IsEmail, IsNotEmpty, IsNumber, IsString, Length} from 'class-validator';
+import {Client} from "../../users/entities/client.entity";
 
 export class CreateContacto {
   @ApiProperty()
@@ -53,10 +54,15 @@ export class CreateContacto {
 
   @ApiProperty({ required: true, type: 'varchar'})
   @IsNotEmpty()
-  readonly client?: string;
+  client?: Client;
 
   @ApiProperty({ required: true})
   @IsNotEmpty()
   @IsNumber()
   readonly category_id: number;
+
+  @ApiProperty({ required: false})
+  @IsNotEmpty()
+  @IsNumber()
+  readonly client_id?: number;
 }
