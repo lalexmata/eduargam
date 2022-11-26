@@ -75,6 +75,7 @@ export class ClientsService {
     return this.clientRepo
       .createQueryBuilder('client')
       .select(['client.id', 'client.name', 'client.logo'])
+      .where('client.mostrar_en_principal = 1')
       .getMany();
   }
 

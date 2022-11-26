@@ -34,6 +34,8 @@ export class Client {
   @Column({ type: 'longtext', nullable: true })
   logo: string;
 
+  @Column({ type: 'integer', nullable: false, default: false })
+  mostrar_en_principal: boolean;
 
   @OneToOne( () => User, (user) => user.client, { nullable:true })
   user: User
