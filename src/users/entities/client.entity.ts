@@ -22,13 +22,13 @@ export class Client {
   @Column({ type: 'longtext' })
   address: string;
 
-  @Column({ type: 'varchar', length: 200 })
+  @Column({ type: 'varchar', length: 200, default: 'S/D' })
   contact: string;
 
-  @Column({ type: 'varchar', length: 200 })
+  @Column({ type: 'varchar', length: 200, default: 'S/D' })
   city: string;
 
-  @Column({ type: 'varchar', length: 200 })
+  @Column({ type: 'varchar', length: 200, default: 'S/D' })
   comuna: string;
 
   @Column({ type: 'longtext', nullable: true })
