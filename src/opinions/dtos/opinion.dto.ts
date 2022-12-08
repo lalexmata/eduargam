@@ -1,9 +1,12 @@
-import {ApiProperty, PartialType} from "@nestjs/swagger";
-import {IsNotEmpty, IsOptional, IsPositive, IsString} from "class-validator";
+import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { IsNotEmpty, IsOptional, IsPositive, IsString } from 'class-validator';
 
 export class CreateOpinionDto {
-
-  @ApiProperty({ description: "Nombre de quien emite la opinion", required: true, example: "ejemplo@correo.com"})
+  @ApiProperty({
+    description: 'Nombre de quien emite la opinion',
+    required: true,
+    example: 'ejemplo@correo.com',
+  })
   @IsString()
   name: string;
 
@@ -20,10 +23,13 @@ export class CreateOpinionDto {
   @IsNotEmpty()
   rate: number;
 
-  @ApiProperty({ description: 'Estado de la opinion 1 es activo 0 inactivo', required: false, default: 0 })
+  @ApiProperty({
+    description: 'Estado de la opinion 1 es activo 0 inactivo',
+    required: false,
+    default: 0,
+  })
   @IsOptional()
-  status: number
-
+  status: number;
 }
 
-export class UpdateOpinionDto extends PartialType(CreateOpinionDto){}
+export class UpdateOpinionDto extends PartialType(CreateOpinionDto) {}

@@ -1,17 +1,19 @@
-import {Body, Controller, Get, Param, ParseIntPipe, Post} from '@nestjs/common';
-import {ApiOperation, ApiTags} from "@nestjs/swagger";
-import {MultimediaService} from "../services/multimedia.service";
-import {CreateMultimediaDto} from "../dtos/multimedia.dto";
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { MultimediaService } from '../services/multimedia.service';
+import { CreateMultimediaDto } from '../dtos/multimedia.dto';
 
 @Controller('multimedia')
 @ApiTags('multimedia')
 export class MultimediaController {
-
-
-  constructor(
-    private multimedaService: MultimediaService
-  ) {
-  }
+  constructor(private multimedaService: MultimediaService) {}
 
   @ApiOperation({ summary: ' Obtener listado de clientes' })
   @Get()
@@ -26,8 +28,7 @@ export class MultimediaController {
   }
 
   @Post()
-  create( @Body() data: CreateMultimediaDto){
+  create(@Body() data: CreateMultimediaDto) {
     return this.multimedaService.create(data);
   }
-
 }

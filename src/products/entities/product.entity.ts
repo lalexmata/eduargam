@@ -1,18 +1,25 @@
-import {Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {Category} from "./category.entity";
-import {Client} from "../../users/entities/client.entity";
-import {Multimedia} from "../../multimedia/entities/multimedia.entity";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Category } from './category.entity';
+import { Client } from '../../users/entities/client.entity';
+import { Multimedia } from '../../multimedia/entities/multimedia.entity';
 
 @Entity()
 export class Product {
-
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 200})
+  @Column({ type: 'varchar', length: 200 })
   name: string;
 
-  @Column({ type: 'longtext'})
+  @Column({ type: 'longtext' })
   description: string;
 
   @Column({})
@@ -21,10 +28,11 @@ export class Product {
   @Column()
   stock: number;
 
-
-  @OneToOne( () => Multimedia, (multimedia) => multimedia.product, { nullable:true})
-  @JoinColumn({ name: 'image_id'})
-  multimedia: Multimedia
+  @OneToOne(() => Multimedia, (multimedia) => multimedia.product, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'image_id' })
+  multimedia: Multimedia;
 
   @ManyToMany(() => Category, (category) => category.products)
   @JoinTable({

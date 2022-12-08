@@ -1,17 +1,25 @@
-import {Body, Delete, Injectable, NotFoundException, Param, ParseIntPipe, Post, Put} from '@nestjs/common';
+import {
+  Body,
+  Delete,
+  Injectable,
+  NotFoundException,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Convenio } from '../entities/convenio.entity';
 import { Repository } from 'typeorm';
-import {ApiOperation} from "@nestjs/swagger";
-import {CreatePostsDto, UpdatePostsDto} from "../../posts/dtos/posts.dtos";
-import {CreateConvenio, UpdateConvenio} from "../dtos/convenio.dtos";
+import { ApiOperation } from '@nestjs/swagger';
+import { CreatePostsDto, UpdatePostsDto } from '../../posts/dtos/posts.dtos';
+import { CreateConvenio, UpdateConvenio } from '../dtos/convenio.dtos';
 
 @Injectable()
 export class ConveniosService {
   constructor(
     @InjectRepository(Convenio) private convenioRepo: Repository<Convenio>,
-  ) {
-  }
+  ) {}
 
   findAll() {
     return this.convenioRepo.find();
@@ -34,18 +42,16 @@ export class ConveniosService {
   async update(id: number, changes: UpdateConvenio) {
     const convenio = await this.findOne(id);
 
-    if(!convenio){
+    if (!convenio) {
       throw new NotFoundException(`convenio #${id} not found`);
     }
 
     this.convenioRepo.merge(convenio, changes);
 
     return this.convenioRepo.save(convenio);
-
   }
 
   async remove(id: number) {
-
     const deleteConvenio = await this.convenioRepo.delete(id);
 
     if (!deleteConvenio) {
@@ -60,5 +66,4 @@ export class ConveniosService {
       msj: 'Convenio deleted successfull',
     };
   }
-
 }

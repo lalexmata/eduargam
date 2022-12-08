@@ -1,9 +1,8 @@
-import {Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {User} from "./user.entity";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from './user.entity';
 
 @Entity()
 export class Client {
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -37,6 +36,6 @@ export class Client {
   @Column({ type: 'integer', nullable: false, default: false })
   mostrar_en_principal: boolean;
 
-  @OneToOne( () => User, (user) => user.client, { nullable:true })
-  user: User
+  @OneToOne(() => User, (user) => user.client, { nullable: true })
+  user: User;
 }

@@ -5,17 +5,14 @@ import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { RolesService } from './roles.service';
-import {Role} from "../entities/role.entity";
-
+import { Role } from '../entities/role.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepo: Repository<User>,
     private roleService: RolesService,
-  ) {
-  }
-
+  ) {}
 
   findAll() {
     return this.userRepo.find({

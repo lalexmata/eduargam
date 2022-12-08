@@ -1,22 +1,21 @@
-import {Body, Controller, Get, Post} from '@nestjs/common';
-import {ApiOperation, ApiTags} from "@nestjs/swagger";
-import {ContactoService} from "../services/contacto.service";
-import {CreateConvenio} from "../../convenios/dtos/convenio.dtos";
-import {ClientsService} from "../../users/services/clients.service";
-import {CreateClientDto} from "../../users/dtos/client.dto";
-import {CreateContacto} from "../dtos/contacto.dtos";
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ContactoService } from '../services/contacto.service';
+import { CreateConvenio } from '../../convenios/dtos/convenio.dtos';
+import { ClientsService } from '../../users/services/clients.service';
+import { CreateClientDto } from '../../users/dtos/client.dto';
+import { CreateContacto } from '../dtos/contacto.dtos';
 
 @Controller('contacto')
 @ApiTags('contacto')
 export class ContactoController {
   constructor(
     private contactoService: ContactoService,
-    private clientService: ClientsService
-  ) {
-  }
+    private clientService: ClientsService,
+  ) {}
 
   @Get('')
-  @ApiOperation({ summary: 'Obtiene listado de contactos realizados'})
+  @ApiOperation({ summary: 'Obtiene listado de contactos realizados' })
   getAll() {
     return this.contactoService.findAll();
   }

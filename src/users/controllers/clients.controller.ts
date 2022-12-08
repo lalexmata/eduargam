@@ -15,10 +15,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 @Controller('clients')
 @ApiTags('clients')
 export class ClientsController {
-  constructor(
-    private clientService: ClientsService
-  ) {
-  }
+  constructor(private clientService: ClientsService) {}
 
   @ApiOperation({ summary: ' Obtener listado de clientes' })
   @Get()
@@ -26,9 +23,9 @@ export class ClientsController {
     return this.clientService.findAll();
   }
 
-  @ApiOperation( { summary: 'Obtiene listado de clientes con nombre y logo'})
+  @ApiOperation({ summary: 'Obtiene listado de clientes con nombre y logo' })
   @Get('list')
-  getClientsList(){
+  getClientsList() {
     return this.clientService.list();
   }
 

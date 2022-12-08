@@ -8,7 +8,6 @@ import {
 
 @Entity()
 export class Opinion {
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -18,7 +17,7 @@ export class Opinion {
   @Column()
   client_name: string;
 
-  @Column({ type: 'longtext'})
+  @Column({ type: 'longtext' })
   opinion: string;
 
   @Column()

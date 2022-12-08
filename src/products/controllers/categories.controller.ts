@@ -9,7 +9,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags} from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CategoriesService } from '../services/categories.service';
 import { ParseIntPipe } from '../../common/parse-int.pipe';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/categories.dto';
@@ -17,10 +17,7 @@ import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/categories.dto';
 @Controller('categories')
 @ApiTags('categories')
 export class CategoriesController {
-  constructor(
-    private categoryService: CategoriesService
-  ) {
-  }
+  constructor(private categoryService: CategoriesService) {}
   @Get()
   @ApiOperation({ summary: ' Obtiene todas las categorias registradas' })
   getAll() {
@@ -36,7 +33,6 @@ export class CategoriesController {
   getCategory(@Param('productId') productId: string, @Param('id') id: string) {
     return `product ${productId} and ${id}`;
   }
-
 
   @Get(':id')
   @HttpCode(HttpStatus.ACCEPTED)
@@ -58,5 +54,4 @@ export class CategoriesController {
   delete(@Param('id') id: string) {
     return this.categoryService.remove(+id);
   }
-
 }

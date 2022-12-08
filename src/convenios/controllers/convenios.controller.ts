@@ -15,18 +15,16 @@ import { CreateConvenio, UpdateConvenio } from '../dtos/convenio.dtos';
 @Controller('convenios')
 @ApiTags('convenios')
 export class ConveniosController {
-  constructor(
-    private convenioService: ConveniosService
-  ) {}
+  constructor(private convenioService: ConveniosService) {}
 
   @Get('')
-  @ApiOperation({ summary: 'Obtiene listado de convenios'})
+  @ApiOperation({ summary: 'Obtiene listado de convenios' })
   getAll() {
     return this.convenioService.findAll();
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Obtiene un Convenio por su id'})
+  @ApiOperation({ summary: 'Obtiene un Convenio por su id' })
   get(@Param('id', ParseIntPipe) id: number) {
     return this.convenioService.findOne(id);
   }
@@ -51,5 +49,4 @@ export class ConveniosController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.convenioService.remove(+id);
   }
-
 }

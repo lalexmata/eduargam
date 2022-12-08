@@ -1,18 +1,17 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateClientDto } from '../../users/dtos/client.dto';
 import { ClientsService } from '../../users/services/clients.service';
-import {Contacto} from "../entities/contacto.entity";
-import {CreateContacto} from "../dtos/contacto.dtos";
-import {CategoriesService} from "../../products/services/categories.service";
-import {Client} from "../../users/entities/client.entity";
-
+import { Contacto } from '../entities/contacto.entity';
+import { CreateContacto } from '../dtos/contacto.dtos';
+import { CategoriesService } from '../../products/services/categories.service';
+import { Client } from '../../users/entities/client.entity';
 
 @Injectable()
 export class ContactoService {
   constructor(
-    @InjectRepository(Contacto) private contactoRepo : Repository<Contacto>,
+    @InjectRepository(Contacto) private contactoRepo: Repository<Contacto>,
     private clientService: ClientsService,
     private categoryService: CategoriesService,
   ) {}

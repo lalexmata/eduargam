@@ -1,12 +1,11 @@
-import { Injectable, NotFoundException} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
 import { Post } from '../entities/post.entity';
 import { CreatePostsDto, UpdatePostsDto } from '../dtos/posts.dtos';
 import { CategoriesService } from '../../products/services/categories.service';
-import {Category} from "../../products/entities/category.entity";
-
+import { Category } from '../../products/entities/category.entity';
 
 @Injectable()
 export class PostsService {
@@ -14,9 +13,7 @@ export class PostsService {
     @InjectRepository(Post) private postRepo: Repository<Post>,
     @InjectRepository(Category) private categoryRepo: Repository<Category>,
     private categoryService: CategoriesService,
-  ) {
-  }
-
+  ) {}
 
   findAll() {
     return this.postRepo.find({
@@ -29,7 +26,7 @@ export class PostsService {
 
   findOne(id: number) {
     const post = this.postRepo.find({
-      where: { id: id},
+      where: { id: id },
       relations: {
         categories: true,
         images: true,
@@ -46,7 +43,7 @@ export class PostsService {
     //const category = await this.categoryService.findBySlug(categoryName);
     const posts = this.postRepo.find({
       //where: { id: id},
-      relations: { images: true}
+      relations: { images: true },
     });
     //TODO:filtrar por categoria
     return posts;
@@ -55,7 +52,7 @@ export class PostsService {
   async create(data: CreatePostsDto) {
     const newPost = this.postRepo.create(data);
 
-    if(data.categories_id){
+    if (data.categories_id) {
       const categories = await this.categoryRepo.findByIds(data.categories_id);
 
       if (categories) {
@@ -68,21 +65,20 @@ export class PostsService {
 
   async update(id: number, changes: UpdatePostsDto) {
     const post = this.postRepo.find({
-      where: { id: id},
-      relations: { categories: true}
+      where: { id: id },
+      relations: { categories: true },
     });
 
-    if(!post){
+    if (!post) {
       throw new NotFoundException(`post #${id} not found`);
     }
 
-    if(changes.categories_id){
+    if (changes.categories_id) {
       const categories = await this.categoryRepo.findByIds(
         changes.categories_id,
       );
       console.log(categories);
     }
-
   }
 
   async remove(id: number) {
@@ -106,16 +102,18 @@ export class PostsService {
     };
   }
 
-  async removeCategoryByPost(post_id: number, category_id: number){
-    const post = await this.postRepo.findOne( {
+  async removeCategoryByPost(post_id: number, category_id: number) {
+    const post = await this.postRepo.findOne({
       where: { id: post_id },
       relations: {
-        categories: true
-      }
+        categories: true,
+      },
     });
 
-    if(post){
-      post.categories = post.categories.filter((item) => item.id !== category_id);
+    if (post) {
+      post.categories = post.categories.filter(
+        (item) => item.id !== category_id,
+      );
     }
 
     return this.postRepo.save(post);

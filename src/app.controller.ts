@@ -10,9 +10,7 @@ export class AppController {
     return {
       app_name: 'Eduargam',
       version: '0.0.1',
-      author: 'lmatadesign'
+      author: 'lmatadesign',
     };
   }
-
-
 }

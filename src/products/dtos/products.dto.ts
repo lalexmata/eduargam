@@ -36,7 +36,9 @@ export class CreateProductDto {
   @IsNotEmpty()
   readonly image: string;
 
-  @ApiProperty({ description: 'identifcadores de las categorias asociadas al producto'})
+  @ApiProperty({
+    description: 'identifcadores de las categorias asociadas al producto',
+  })
   readonly categories_id: number[];
 }
 

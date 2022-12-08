@@ -2,7 +2,8 @@ import {
   Column,
   Entity,
   ManyToMany,
-  OneToMany, OneToOne,
+  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Post } from '../../posts/entities/post.entity';

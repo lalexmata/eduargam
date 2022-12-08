@@ -1,20 +1,22 @@
 import {
   Column,
   CreateDateColumn,
-  Entity, ManyToMany, OneToOne,
+  Entity,
+  ManyToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import {Post} from "../../posts/entities/post.entity";
-import {User} from "../../users/entities/user.entity";
-import {Product} from "../../products/entities/product.entity";
+import { Post } from '../../posts/entities/post.entity';
+import { User } from '../../users/entities/user.entity';
+import { Product } from '../../products/entities/product.entity';
 
 @Entity()
 export class Multimedia {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'longtext'})
+  @Column({ type: 'longtext' })
   uri: string;
 
   @Column({ type: 'varchar', length: 10, default: 'png' })
@@ -26,10 +28,9 @@ export class Multimedia {
   @UpdateDateColumn()
   update_at: Date;
 
-  @ManyToMany( () => Post, (post) => post.images)
+  @ManyToMany(() => Post, (post) => post.images)
   posts: Post[];
 
-  @OneToOne( () => Product, (product) => product.multimedia, { nullable:true })
-  product: Product
-
+  @OneToOne(() => Product, (product) => product.multimedia, { nullable: true })
+  product: Product;
 }

@@ -6,18 +6,15 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-
 @Entity()
 export class Convenio {
-
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: '100'})
+  @Column({ type: 'varchar', length: '100' })
   title: string;
 
-
-  @Column( { type: 'longtext'})
+  @Column({ type: 'longtext' })
   imagen: string;
 
   @CreateDateColumn()

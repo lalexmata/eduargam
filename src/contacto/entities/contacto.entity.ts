@@ -1,6 +1,10 @@
 import {
   Column,
-  CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -27,12 +31,13 @@ export class Contacto {
   @UpdateDateColumn()
   update_at: Date;
 
-  @ManyToOne( () => Client, (client) => client.user, { nullable:false })
-  @JoinColumn({ name: 'client_id'})
+  @ManyToOne(() => Client, (client) => client.user, { nullable: false })
+  @JoinColumn({ name: 'client_id' })
   client: Client;
 
-  @ManyToOne( () => Category, (category) => category.contacto, { nullable:false })
-  @JoinColumn({ name: 'category_id'})
+  @ManyToOne(() => Category, (category) => category.contacto, {
+    nullable: false,
+  })
+  @JoinColumn({ name: 'category_id' })
   category: Category;
 }
-

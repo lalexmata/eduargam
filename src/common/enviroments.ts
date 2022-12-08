@@ -8,8 +8,8 @@ export const enviroments = {
     password: process.env.DATABASE_PASSWORD || 'root',
     name: process.env.DATABASE_NAME || 'eduargam',
     entities: ['dist/**/*.entity{.ts,.js}'],
-    synchronize: true
-  }
+    synchronize: true,
+  },
   /*database: {
     driver: 'mysql' || 'mysql',
     host: process.env.DATABASE_HOST || 'eduargam-des.c11fqquocnvk.us-east-1.rds.amazonaws.com',
@@ -18,4 +18,4 @@ export const enviroments = {
     password: process.env.DATABASE_PASSWORD || 'TNHheEcDw0QvMqKnF3qx',
     name: process.env.DATABASE_NAME || 'eduargam-des',
   }*/
-}
+};

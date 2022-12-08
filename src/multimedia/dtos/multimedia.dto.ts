@@ -1,5 +1,5 @@
-import {ApiProperty, PartialType} from "@nestjs/swagger";
-import {IsString, IsUrl} from "class-validator";
+import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { IsString, IsUrl } from 'class-validator';
 
 export class CreateMultimediaDto {
   @ApiProperty({ description: 'url del archivo multimedia' })
@@ -11,4 +11,4 @@ export class CreateMultimediaDto {
   extension: string;
 }
 
-export class UpdateMultimediaDto extends PartialType(CreateMultimediaDto){}
+export class UpdateMultimediaDto extends PartialType(CreateMultimediaDto) {}

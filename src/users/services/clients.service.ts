@@ -65,7 +65,8 @@ export class ClientsService {
       user: null,
       logo: '',
     },
-  */];
+  */
+  ];
 
   findAll() {
     return this.clientRepo.find({ relations: { user: true } });
