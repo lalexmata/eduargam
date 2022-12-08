@@ -1,13 +1,14 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ContactoService } from '../services/contacto.service';
-import { CreateConvenio } from '../../convenios/dtos/convenio.dtos';
 import { ClientsService } from '../../users/services/clients.service';
-import { CreateClientDto } from '../../users/dtos/client.dto';
 import { CreateContacto } from '../dtos/contacto.dtos';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { Public } from '../../auth/decorators/public.decorators';
 
 @Controller('contacto')
 @ApiTags('contacto')
+@UseGuards(JwtAuthGuard)
 export class ContactoController {
   constructor(
     private contactoService: ContactoService,
@@ -20,6 +21,7 @@ export class ContactoController {
     return this.contactoService.findAll();
   }
 
+  @Public()
   @Post()
   @ApiOperation({ summary: 'Crea un nuevo Post' })
   async create(@Body() data: CreateContacto) {

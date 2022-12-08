@@ -9,6 +9,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   // Configuración Swagger en NestJS
   const config = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('Eduargam API')
     .setDescription('Documentación Eduargam API')
     .setVersion('1.0')

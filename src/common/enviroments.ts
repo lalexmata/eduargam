@@ -18,4 +18,5 @@ export const enviroments = {
     password: process.env.DATABASE_PASSWORD || 'TNHheEcDw0QvMqKnF3qx',
     name: process.env.DATABASE_NAME || 'eduargam-des',
   }*/
+  jwt_secret: process.env.JWT_SECRET || 'eduardgamPS2022',
 };

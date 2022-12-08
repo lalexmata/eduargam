@@ -6,35 +6,39 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  Put,
+  Put, UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PostsService } from '../services/posts.service';
 import { CreateUserDto, UpdateUserDto } from '../../users/dtos/user.dto';
 import { CreatePostsDto, UpdatePostsDto } from '../dtos/posts.dtos';
 import { CategoriesService } from '../../products/services/categories.service';
+import {JwtAuthGuard} from "../../auth/guards/jwt-auth.guard";
+import {Public} from "../../auth/decorators/public.decorators";
 
 @Controller('posts')
 @ApiTags('posts')
+@UseGuards(JwtAuthGuard)
 export class PostsController {
   constructor(
     private postsService: PostsService,
     private categoryService: CategoriesService,
   ) {}
 
+  @Public()
   @Get()
   @ApiOperation({ summary: 'Obtiene todos los Post' })
   getAll() {
     return this.postsService.findAll();
   }
-
+  @Public()
   @Get('category/:slug')
   @ApiOperation({ summary: 'Obtener post por categoria' })
   getPostsByCategory(@Param('slug') slug: string) {
     return this.postsService.findByCategory(slug);
-    return [];
   }
 
+  @Public()
   @Get(':id')
   @ApiOperation({ summary: 'Obtiene un Post por su id' })
   get(@Param('id', ParseIntPipe) id: number) {

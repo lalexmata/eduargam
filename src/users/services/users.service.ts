@@ -55,6 +55,11 @@ export class UsersService {
         if (role) {
           newUser.role = role;
         }
+      } else {
+        const role = await this.roleService.findOne(2);
+        if (role) {
+          newUser.role = role;
+        }
       }
       return this.userRepo.save(newUser);
     } catch (e) {
