@@ -6,14 +6,14 @@ import {
   Body,
   Put,
   Delete,
-  ParseIntPipe, UseGuards,
+  ParseIntPipe, UseGuards, Request,
 } from '@nestjs/common';
 
 import { UsersService } from '../services/users.service';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { ApiBearerAuth, ApiTags} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { Public } from '../../auth/decorators/public.decorators';
+import { User } from '../entities/user.entity';
 
 @ApiBearerAuth()
 @Controller('users')
@@ -21,9 +21,16 @@ import { Public } from '../../auth/decorators/public.decorators';
 @UseGuards(JwtAuthGuard)
 export class UsersController {
   constructor(private usersService: UsersService) {}
+
   @Get()
   findAll() {
     return this.usersService.findAll();
+  }
+
+  @Get('/me')
+  async getUserById(@Request() req: any): Promise<User> {
+    const { id } = req.user;
+    return await this.usersService.findOne(id);
   }
 
   @Get(':id')

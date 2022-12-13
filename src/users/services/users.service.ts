@@ -41,6 +41,9 @@ export class UsersService {
       where: {
         email,
       },
+      relations: {
+        role: true,
+      },
     });
   }
 
@@ -74,9 +77,11 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
     }
-    if (changes.password) {
+    if (changes.password && changes.password != '') {
       const hashPassword = await bcrypt.hash(changes.password, 10);
-      user.password = hashPassword;
+      changes.password = hashPassword;
+    } else {
+      delete changes.password;
     }
 
     if (changes.role_id) {

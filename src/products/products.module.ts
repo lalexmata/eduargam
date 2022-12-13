@@ -10,11 +10,24 @@ import { ProductsController } from './controllers/products.controller';
 import { MultimediaService } from '../multimedia/services/multimedia.service';
 import { MultimediaController } from '../multimedia/controllers/multimedia.controller';
 import { Multimedia } from '../multimedia/entities/multimedia.entity';
+import { User } from '../users/entities/user.entity';
+import { Role } from '../users/entities/role.entity';
+import { UsersService } from '../users/services/users.service';
+import { RolesService } from '../users/services/roles.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Category, Product, Multimedia])],
+  imports: [
+    TypeOrmModule.forFeature([Category, Product, Multimedia, User, Role]),
+  ],
   controllers: [CategoriesController, ProductsController, MultimediaController],
-  providers: [CategoriesService, Category, ProductsService, MultimediaService],
+  providers: [
+    CategoriesService,
+    Category,
+    ProductsService,
+    MultimediaService,
+    UsersService,
+    RolesService,
+  ],
   exports: [CategoriesService, ProductsService],
 })
 export class ProductsModule {}

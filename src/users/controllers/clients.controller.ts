@@ -6,14 +6,17 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  Put,
+  Put, UseGuards,
 } from '@nestjs/common';
 import { ClientsService } from '../services/clients.service';
 import { CreateClientDto, UpdateClientDto } from '../dtos/client.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Public } from '../../auth/decorators/public.decorators';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 
 @Controller('clients')
 @ApiTags('clients')
+@UseGuards(JwtAuthGuard)
 export class ClientsController {
   constructor(private clientService: ClientsService) {}
 
@@ -23,6 +26,7 @@ export class ClientsController {
     return this.clientService.findAll();
   }
 
+  @Public()
   @ApiOperation({ summary: 'Obtiene listado de clientes con nombre y logo' })
   @Get('list')
   getClientsList() {

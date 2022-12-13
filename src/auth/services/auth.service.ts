@@ -2,7 +2,7 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { LoginAuthDto } from '../dtos/login-auth.dtos';
 import { UsersService } from '../../users/services/users.service';
 import { compare } from 'bcrypt';
-import {JwtService} from "@nestjs/jwt";
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {

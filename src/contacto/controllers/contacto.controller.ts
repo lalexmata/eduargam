@@ -25,21 +25,6 @@ export class ContactoController {
   @Post()
   @ApiOperation({ summary: 'Crea un nuevo Post' })
   async create(@Body() data: CreateContacto) {
-    //const newContact= this.contactoService.create(data);
-    /*const requestCliente: CreateClientDto = {
-      name: data.name,
-      rut: data.rut,
-      email: data.email,
-      telephone: data.telephone,
-      address: data.address,
-      contact: data.contact,
-      city: data.city,
-      comuna: data.comuna,
-      user_id: null,
-      logo: 'https://images2.imgbox.com/52/a0/bCmYaEhc_o.png'
-    };*/
-    //const client = await this.clientService.create(data);
-
     return this.contactoService.create(data);
   }
 }

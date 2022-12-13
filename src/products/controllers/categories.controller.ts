@@ -7,7 +7,8 @@ import {
   HttpStatus,
   Param,
   Post,
-  Put, UseGuards,
+  Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CategoriesService } from '../services/categories.service';
