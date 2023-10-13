@@ -7,6 +7,7 @@ import {
   Length,
 } from 'class-validator';
 import { Client } from '../../users/entities/client.entity';
+import { PartialType } from '@nestjs/mapped-types';
 
 export class CreateContacto {
   @ApiProperty()
@@ -69,10 +70,12 @@ export class CreateContacto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsNumber()
-  readonly category_id: number;
+  category_id: number;
 
   @ApiProperty({ required: false })
   @IsNotEmpty()
   @IsNumber()
   readonly client_id?: number;
 }
+
+export class UpdateContacto extends PartialType(CreateContacto){}

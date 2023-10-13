@@ -3,13 +3,14 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToOne,
+  ManyToOne, OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Client } from '../../users/entities/client.entity';
 import { Category } from '../../products/entities/category.entity';
+import { ContactoComment } from './contacto-comment.entity';
 
 @Entity()
 export class Contacto {
@@ -40,4 +41,8 @@ export class Contacto {
   })
   @JoinColumn({ name: 'category_id' })
   category: Category;
+
+  @OneToMany(() => ContactoComment, (observaciones) => observaciones.contacto)
+  observaciones: ContactoComment;
+
 }

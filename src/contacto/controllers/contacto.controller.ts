@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ContactoService } from '../services/contacto.service';
 import { ClientsService } from '../../users/services/clients.service';
@@ -19,6 +19,11 @@ export class ContactoController {
   @ApiOperation({ summary: 'Obtiene listado de contactos realizados' })
   getAll() {
     return this.contactoService.findAll();
+  }
+
+  @Get(':id')
+  getOne(@Param('id', ParseIntPipe) id: number) {
+    return this.contactoService.findOne(id);
   }
 
   @Public()
