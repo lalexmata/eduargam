@@ -25,7 +25,7 @@ export class PostsService {
   }
 
   findOne(id: number) {
-    const post = this.postRepo.find({
+    const post = this.postRepo.findOne({
       where: { id: id },
       relations: {
         categories: true,
