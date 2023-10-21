@@ -34,7 +34,7 @@ export class CategoriesService {
   }
 
   async findBySlug(slug: string) {
-    return this.categoryRepo.find({
+    return this.categoryRepo.findOne({
       where: {
         slug,
       },

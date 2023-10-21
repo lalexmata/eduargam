@@ -40,10 +40,14 @@ export class PostsService {
   }
 
   async findByCategory(categoryName: string) {
-    //const category = await this.categoryService.findBySlug(categoryName);
+    const category = await this.categoryService.findBySlug(categoryName);
     const posts = this.postRepo.find({
-      //where: { id: id},
       relations: { images: true },
+      where: {
+        categories: {
+          id: category.id,
+        },
+      },
     });
     //TODO:filtrar por categoria
     return posts;
@@ -77,7 +81,9 @@ export class PostsService {
       const categories = await this.categoryRepo.findByIds(
         changes.categories_id,
       );
-      console.log(categories);
+      if (categories) {
+        console.log(categories);
+      }
     }
   }
 
